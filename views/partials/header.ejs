@@ -1,0 +1,16 @@
+<header>
+    <nav class="navbar navbar-default" style="background-color: #0e0e0e;border-color: #eee">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li <% if(page_name == 'home') {%> class="active" <%} %> >  <a href="/">Home</a></li>
+          <li <% if(page_name == 'about') {%> class="active" <%} %> > <a href="/about">About</a></li>
+          <li <% if(page_name == 'student-register') {%> class="active" <%} %> > <a href="/student-register">Student Registration</a></li>
+          <li><a href="#">Student List</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </nav>
+</header>
