@@ -1,15 +1,21 @@
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'matrix',
-  database : 'crud_node'
+global.knex = require('knex')({
+  client: 'mysql',
+  connection: {
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USERNAME,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_DATABASE,
+    charset  : 'utf8'
+  }
 });
- 
-connection.connect();
- 
-connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-  if (error) throw error;
-  console.log('The solution is: ', results[0].solution);
-});
- 
+global.bookshelf = require('bookshelf')(knex);
+global.app.set('bookshelf', bookshelf);
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+};
+// parse application/x-www-form-urlencoded
+global.app.use(allowCrossDomain);
+// elsewhere, to use the bookshelf client:
+var bookshelf = app.get('bookshelf');
+

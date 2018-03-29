@@ -1,22 +1,12 @@
-// index page 
-global.app.get('/', function(req, res) {
-    res.render('pages/index',{
-    	page_name : 'home'
-    });
-});
-// about page 
-global.app.get('/about', function(req, res) {
-    res.render('pages/about',{
-    	page_name : 'about'
-    });
-});
-// register page 
-global.app.get('/student-register', function(req, res) {
-    res.render('pages/register',{
-    	page_name : 'student-register'
-    });
-});
-global.app.get('/post-register', function(req, res) {
-	console.log("here");	
-    //res.render('pages/register');
-});
+global.router = express.Router();
+var homeController = require('../app/Controllers/HomeController');
+var userController = require('../app/Controllers/UserController');
+var studentController = require('../app/Controllers/StudentController');
+
+router.get('/', homeController.home);
+router.get('/about', homeController.about);
+router.get('/user-list', userController.user_list);
+router.get('/student-register', studentController.studentRegister);
+router.post('/student-register-post', studentController.studentRegisterPost);
+
+module.exports = router;
