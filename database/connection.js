@@ -10,12 +10,13 @@ global.knex = require('knex')({
 });
 global.bookshelf = require('bookshelf')(knex);
 global.app.set('bookshelf', bookshelf);
-var allowCrossDomain = function(req, res, next) {
+global.allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 };
 // parse application/x-www-form-urlencoded
 global.app.use(allowCrossDomain);
-// elsewhere, to use the bookshelf client:
-var bookshelf = app.get('bookshelf');
-
+// elsewhere,global. to use the bookshelf client:
+global.bookshelf = app.get('bookshelf');
+module.exports = global.bookshelf;
+//console.log(bookshelf);

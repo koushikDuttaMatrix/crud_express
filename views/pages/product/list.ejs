@@ -1,0 +1,61 @@
+<% include ../../partials/head %>
+<% include ../../partials/header %>
+<div class="container">
+  <h2>Product List <a href="/product-add" class="btn btn-info">Add Product</a></h2>
+  <div class="panel panel-default">
+    <div class="panel-body">
+          <%if(query.successMsg) {%>
+            <div class="alert alert-success">
+                <strong>Success!</strong> <%= query.successMsg %>
+            </div>
+          <%}%>
+        <table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th width="5%">No.</th>
+            <th width="20%">Name</th>
+            <th width="25%">Description</th>
+            <th width="15%">Product Picture</th>
+            <th width="20%">Category</th>
+            <th width="15%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% for(var i=0;i<list.length;i++) {%>
+        <tr>
+            <td><%= i+1 %></td>
+            <td><%= list[i].name %></td>
+            <td><%= list[i].description %></td>
+            <td>colgate</td>
+            <td>
+              <%if (list[i].categories.length > 0) { %>
+                <% for(var j=0;j<list[i].categories.length;j++) {%>
+              <span class="label label-warning"><%= list[i].categories[j].categoryMaster.name %></span>
+                <% }%>
+              <% }
+              else {%>
+                  No Category found
+            <%}%>
+            </td>
+            <td>
+              <%if(list[i].status=='ACTIVE') {%>
+              <a href="/product-status-update/<%=list[i].id%>" class="btn btn-success">Active</a>
+              <%}%>
+              <%if(list[i].status=='INACTIVE') {%>
+              <a href="/product-status-update/<%=list[i].id%>" class="btn btn-danger">In-active</a>
+              <%}%>
+              <button type="button" class="btn btn-primary">Edit</button>
+            </td>
+        </tr>
+        <% }%>
+    </tbody>
+</table>
+    </div>
+  </div>
+</div>
+<% include ../../partials/footer %>
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
