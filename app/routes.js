@@ -4,7 +4,6 @@ var userController = require('../app/Controllers/UserController');
 var categoryController = require('../app/Controllers/CategoryController');
 var ProductController = require('../app/Controllers/ProductController');
 
-
 router.get('/', homeController.home);
 router.get('/about', homeController.about);
 router.get('/user-list', userController.user_list);
@@ -14,5 +13,7 @@ router.get('/products', ProductController.products);
 router.get('/product-status-update/:id', ProductController.statusUpdate);
 router.get('/product-add', ProductController.getAdd);
 router.post('/product-add-post', ProductController.postAdd);
+router.get('/product-edit/:id', ProductController.getEdit);
+router.post('/product-edit-post/:id', ProductController.postEdit);
 
 module.exports = router;

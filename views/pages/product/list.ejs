@@ -26,7 +26,14 @@
             <td><%= i+1 %></td>
             <td><%= list[i].name %></td>
             <td><%= list[i].description %></td>
-            <td>colgate</td>
+            <td>
+              <% if(list[i].product_image){%>
+              <img src="/uploads/products/images/<%= list[i].product_image %>" height="80"/>
+              <%} else if(list[i].product_image=='' || list[i].product_image==null){%>
+                  <img src="/uploads/no_image/productNoImage.jpeg" height="80"/>
+                <%}%>
+
+            </td>
             <td>
               <%if (list[i].categories.length > 0) { %>
                 <% for(var j=0;j<list[i].categories.length;j++) {%>
@@ -44,7 +51,7 @@
               <%if(list[i].status=='INACTIVE') {%>
               <a href="/product-status-update/<%=list[i].id%>" class="btn btn-danger">In-active</a>
               <%}%>
-              <button type="button" class="btn btn-primary">Edit</button>
+              <a href="/product-edit/<%=list[i].id%>" class="btn btn-primary">Edit</a>
             </td>
         </tr>
         <% }%>
