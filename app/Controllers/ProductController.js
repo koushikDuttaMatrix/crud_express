@@ -4,11 +4,6 @@ var ProductCategory = require('../Models/ProductCategory');
 const url = require('url');
 // Student Controllerconsole.log(req);
 const ProductController = {
-		getAdd : function(req, res ){
-		res.render('pages/category/add',{
-			page_name : 'category-add'
-		});
-	},
 	products : function(req, res ){
 		global.Product.collection()
     .fetch({withRelated: ['categories.categoryMaster']})
@@ -58,7 +53,11 @@ const ProductController = {
 	},
 //=============================================================================
 getAdd : function(req, res ){
-		global.Category.collection()
+		global.Category
+		.collection()
+		.query(function(qb) {
+  		qb.whereIn('status', ['ACTIVE','ALL'])
+		})
     .fetch()
     .then(function (collection) {
 			res.render('pages/product/add',{
@@ -130,6 +129,9 @@ postAdd : function(req, res ){
 //=============================================================================
 getEdit : function(req, res ){
 		global.Category.collection()
+		.query(function(qb) {
+  		qb.whereIn('status', ['ACTIVE','ALL'])
+		})
     .fetch()
     .then(function (collection) {
 		global.Product.forge({id:req.params.id})
@@ -155,94 +157,96 @@ getEdit : function(req, res ){
     });
 },
 //=============================================================================
-postEdit : function(req, res ){
-		var upload = multer({
-		storage: global.productStorage,
-		fileFilter: function(req, file, callback) {
-			var ext = global.path.extname(file.originalname)
-			if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-				return callback(res.end('Only images are allowed'), null)
-			}
-			callback(null, true)
-		}
-		}).single('product_image')
-		upload(req, res, function(err) {
-			// console.log(req.body)
-					global.Product.forge({id: req.params.id})
-					.fetch({withRelated: ['categories.categoryMaster']})
-			    .then(function (productVal) {
-						var data = productVal.toJSON();
-					//=============================================================K
-					//update product Category
-						global.ProductCategory.forge({id: data.categories[0].id})
-						.fetch({require: true})
-						.then(function (productCategoryVal) {
-						    productCategoryVal.save({
-						      category_id: req.body.category_id || productCategoryVal.get('category_id'),
-						    })
-						    .then(function () {
-						      //res.json({error: false, data: {message: 'User details updated'}});
-						    })
-						    .otherwise(function (err) {
-						      res.status(500).json({error: true, data: {message: err.message}});
-						    });
+postEdit: function(req, res) {
+    var upload = multer({
+        storage: global.productStorage,
+        fileFilter: function(req, file, callback) {
+            var ext = global.path.extname(file.originalname)
+            if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+                return callback(res.end('Only images are allowed'), null)
+            }
+            callback(null, true)
+        }
+    }).single('product_image')
+    upload(req, res, function(err) {
+        // console.log(req.body)
+        global.Product.forge({
+                id: req.params.id
+            })
+            .fetch({
+                withRelated: ['categories.categoryMaster']
+            })
+            .then(function(productVal) {
+                var data = productVal.toJSON();
+                //=============================================================K
+                //update product Category
+                global.ProductCategory.forge({
+                        id: data.categories[0].id
+                    })
+                    .fetch({
+                        require: true
+                    })
+                    .then(function(productCategoryVal) {
+                        productCategoryVal.save({
+                                category_id: req.body.category_id || productCategoryVal.get('category_id'),
+                            })
+                            .then(function() {
+                                //res.json({error: false, data: {message: 'User details updated'}});
+                            })
+                            .otherwise(function(err) {
+                                res.status(500).json({
+                                    error: true,
+                                    data: {
+                                        message: err.message
+                                    }
+                                });
+                            });
+                    })
+                    .otherwise(function(err) {
+                        res.status(500).json({
+                            error: true,
+                            data: {
+                                message: err.message
+                            }
+                        });
+                    });
+                //End
+                //=============================================================K
+                productVal.save({
+                        name: req.body.name || productVal.get('name'),
+                        description: req.body.description || productVal.get('description'),
+                        product_image: (req.file != undefined) ? req.file.filename : null || productVal.get('product_image'),
 
-
-						  // res.redirect(url.format({
-						  //  pathname:"/products",
-						  //  query: {
-						  //     error: false,
-						  //     successMsg: "Records saved sucessfully.",
-						  //   }
-						  // }));
-						  //console.log(productVal.toJSON);
-						  //response.cat = collection.categories;
-						//	console.log(collection.related('categories'));
-						//  res.json({error: false, data: collection.toJSON()});
-						})
-						.otherwise(function (err) {
-						  res.status(500).json({error: true, data: {message: err.message}});
-						});
-						//End
-					//=============================================================K
-					    productVal.save({
-					      name: req.body.name || productVal.get('name'),
-					      description: req.body.description || productVal.get('description'),
-								product_image : (req.file!=undefined) ? req.file.filename : null || productVal.get('product_image'),
-
-					    })
-					    .then(function () {
-								res.redirect(url.format({
-								 pathname:"/products",
-								 query: {
-								    error: false,
-								    successMsg: "Records Updated sucessfully.",
-								  }
-								}));
-					    })
-					    .otherwise(function (err) {
-					      res.status(500).json({error: true, data: {message: err.message}});
-					    });
-
-
-						// res.redirect(url.format({
-					  //  pathname:"/products",
-					  //  query: {
-					  //     error: false,
-					  //     successMsg: "Records saved sucessfully.",
-					  //   }
-				 		// }));
-						//console.log(productVal.toJSON);
-						//response.cat = collection.categories;
-					//	console.log(collection.related('categories'));
-			    //  res.json({error: false, data: collection.toJSON()});
-			    })
-			    .otherwise(function (err) {
-			      res.status(500).json({error: true, data: {message: err.message}});
-			    });
-		//	res.end('File is uploaded')
-			})
-	},
+                    })
+                    .then(function() {
+                        res.redirect(url.format({
+                            pathname: "/products",
+                            query: {
+                                error: false,
+                                successMsg: "Records Updated sucessfully.",
+                            }
+                        }));
+                    })
+                    .otherwise(function(err) {
+                        res.status(500).json({
+                            error: true,
+                            data: {
+                                message: err.message
+                            }
+                        });
+                    });
+            })
+            .otherwise(function(err) {
+                res.status(500).json({
+                    error: true,
+                    data: {
+                        message: err.message
+                    }
+                });
+            });
+        //	res.end('File is uploaded')
+    })
+},
 //=======================================================================
 }
 //https://evdokimovm.github.io/javascript/nodejs/expressjs/multer/2016/11/03/Upload-files-to-server-using-NodeJS-and-Multer-package-filter-upload-files-by-extension.html

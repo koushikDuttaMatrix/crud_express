@@ -12,6 +12,7 @@ global.app.set('view engine', 'ejs');
 global. _ = require('lodash');
 global.multer = require('multer');
 global.path = require('path');
+
 //multer setting
 global.productStorage = multer.diskStorage({
 	destination: function(req, file, callback) {
@@ -21,7 +22,17 @@ global.productStorage = multer.diskStorage({
 		//console.log(file)
 		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
 	}
-})
+});
+
+global.categoryStorage = multer.diskStorage({
+	destination: function(req, file, callback) {
+		callback(null, './public/uploads/categories/images/')
+	},
+	filename: function(req, file, callback) {
+		//console.log(file)
+		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+	}
+});
 
 
 
@@ -44,4 +55,23 @@ var server = app.listen(port, function () {
    var port = server.address().port
 
    console.log("Example app listening at http://%s:%s", host, port)
+})
+//socket setup
+var socket = require('socket.io');
+var io = socket(server);
+
+io.on('connection',function(socket){
+	console.log("Made socket connection",socket.id);
+
+	    // Handle chat event
+    socket.on('chat', function(data){
+        // console.log(data);
+        io.sockets.emit('chat', data);
+    });
+
+		// Handle typing event
+    socket.on('typing', function(data){
+        socket.broadcast.emit('typing', data);
+    });
+
 })

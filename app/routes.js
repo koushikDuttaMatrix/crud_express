@@ -1,14 +1,21 @@
 global.router = express.Router();
-var homeController = require('../app/Controllers/HomeController');
-var userController = require('../app/Controllers/UserController');
-var categoryController = require('../app/Controllers/CategoryController');
+var HomeController = require('../app/Controllers/HomeController');
+var UserController = require('../app/Controllers/UserController');
+var CategoryController = require('../app/Controllers/CategoryController');
 var ProductController = require('../app/Controllers/ProductController');
 
-router.get('/', homeController.home);
-router.get('/about', homeController.about);
-router.get('/user-list', userController.user_list);
-router.get('/category-add', categoryController.getAdd);
-router.get('/categories', categoryController.categories);
+router.get('/', HomeController.home);
+router.get('/about', HomeController.about);
+router.get('/chat', HomeController.getChat);
+router.get('/user-list', UserController.user_list);
+//Category route
+router.get('/categories', CategoryController.categories);
+router.get('/category-status-update/:id', CategoryController.statusUpdate);
+router.get('/category-add', CategoryController.getAdd);
+router.post('/category-add-post', CategoryController.postAdd);
+router.get('/category-edit/:id', CategoryController.getEdit);
+router.post('/category-edit-post/:id', CategoryController.postEdit);
+//Product route
 router.get('/products', ProductController.products);
 router.get('/product-status-update/:id', ProductController.statusUpdate);
 router.get('/product-add', ProductController.getAdd);

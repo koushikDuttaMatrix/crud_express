@@ -10,6 +10,11 @@ const HomeController = {
 	    res.render('pages/about',{
 	    	page_name : 'about'
 	    });
-	}
+	},
+	getChat : function(req, res) {
+	    res.render('pages/chat',{
+	    	page_name : 'chat'
+	    });
+	},
 }
 module.exports = HomeController;

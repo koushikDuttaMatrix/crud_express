@@ -7,8 +7,11 @@
         <ul class="nav navbar-nav">
           <li <% if(page_name == 'home') {%> class="active" <%} %> >  <a href="/">Home</a></li>
           <li <% if(page_name == 'about') {%> class="active" <%} %> > <a href="/about">About</a></li>
-          <li <% if(page_name == 'category-add') {%> class="active" <%} %> > <a href="/category-add">Add Product Category</a></li>
-          <li <% if(page_name == 'product_list') {%> class="active" <%} %> > <a href="/products">Product List</a></li>
+          <li <% if(page_name == 'category_list') {%> class="active" <%} %> > <a href="/categories"><i class="fas fa-list"></i>
+
+ Category</a></li>
+          <li <% if(page_name == 'product_list') {%> class="active" <%} %> > <a href="/products"><i class="fas fa-list"></i>Product</a></li>
+          <li <% if(page_name == 'chat') {%> class="active" <%} %> > <a href="/chat" target="_blank"><i class="fas fa-comments"></i>Chat</a></li>
           <li><a href="#">Contact Us</a></li>
         </ul>
       </div>
