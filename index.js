@@ -1,41 +1,27 @@
 global.express = require('express');
 global.app = express();
 global.bodyParser = require('body-parser');
-global.app.use(bodyParser.json());
-global.app.use(bodyParser.urlencoded({ extended: false }));
 global.env = require('dotenv/config');
 global.Promise = require("bluebird");
 global.myDb = require('./database/connection.js');
-
 global.app.use(express.static('public'));
 global.app.set('view engine', 'ejs');
 global. _ = require('lodash');
 global.multer = require('multer');
 global.path = require('path');
+//var flash = require('connect-flash');
+global.cookieParser = require('cookie-parser')
+global.session = require('express-session');
+global.MySQLStore = require('express-mysql-session')(session);
+global.myDb = require('./config/config.js');
+global.formidable = require('formidable'),
+//For password hash
+global.bcrypt = require('bcrypt');
+global.app.use( global.bodyParser.json({limit: '50mb'}) );       // to support JSON-encoded bodies
 
-//multer setting
-global.productStorage = multer.diskStorage({
-	destination: function(req, file, callback) {
-		callback(null, './public/uploads/products/images/')
-	},
-	filename: function(req, file, callback) {
-		//console.log(file)
-		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-	}
-});
-
-global.categoryStorage = multer.diskStorage({
-	destination: function(req, file, callback) {
-		callback(null, './public/uploads/categories/images/')
-	},
-	filename: function(req, file, callback) {
-		//console.log(file)
-		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-	}
-});
-
-
-
+global.app.use(global.bodyParser.urlencoded({ extended: false,
+   parameterLimit: 1000000,
+limit: '50mb'}));;
 // global.ModelPath = require("path").join(__dirname, "app/model");
 // require("fs").readdirSync(ModelPath).forEach(function(file) {
 //   require("./app/model/" + file);
@@ -66,7 +52,7 @@ io.on('connection',function(socket){
 	    // Handle chat event
     socket.on('chat', function(data){
         // console.log(data);
-        io.sockets.emit('chat', data);
+        io.sockets.emit('chatCatch', data);
     });
 
 		// Handle typing event

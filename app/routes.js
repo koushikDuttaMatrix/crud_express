@@ -7,7 +7,8 @@ var ProductController = require('../app/Controllers/ProductController');
 router.get('/', HomeController.home);
 router.get('/about', HomeController.about);
 router.get('/chat', HomeController.getChat);
-router.get('/user-list', UserController.user_list);
+router.get('/register', HomeController.getRegister);
+router.post('/register-add-post', HomeController.postRegisterOne);
 //Category route
 router.get('/categories', CategoryController.categories);
 router.get('/category-status-update/:id', CategoryController.statusUpdate);

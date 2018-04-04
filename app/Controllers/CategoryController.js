@@ -3,6 +3,9 @@ var Product = require('../Models/Product');
 var ProductCategory = require('../Models/ProductCategory');
 global.User = require('../Models/User');
 const url = require('url');
+const saltRounds = 10;
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
 // Student Controller
 const CategoryController = {
 	//===========================================================================
@@ -58,44 +61,44 @@ getAdd : function(req, res ){
 	},
 	//===========================================================================
 postAdd : function(req, res ){
-		var upload = multer({
-		storage: global.categoryStorage,
-		fileFilter: function(req, file, callback) {
-			var ext = global.path.extname(file.originalname)
-			if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-				return callback(res.end('Only images are allowed'), null)
-			}
-			callback(null, true)
-		}
-	}).single('category_image')
-		upload(req, res, function(err) {
-			console.log(req.body.status);
-			// console.log(req.body)
-					global.Category.forge({
-				      name: req.body.name,
-				      description: req.body.description,
-							status: (typeof req.body.status!='undefined') ? req.body.status : 'ACTIVE',
-							image : (req.file!=undefined) ? req.file.filename : null,
-				    })
-			    .save()
-			    .then(function (collections) {
-						res.redirect(url.format({
-					   pathname:"/categories",
-					   query: {
-					      error: false,
-					      successMsg: "Records saved sucessfully.",
-					    }
-				 		}));
-						//console.log(productVal.toJSON);
-						//response.cat = collection.categories;
-					//	console.log(collection.related('categories'));
-			    //  res.json({error: false, data: collection.toJSON()});
-			    })
-			    .otherwise(function (err) {
-			      res.status(500).json({error: true, data: {message: err.message}});
-			    });
-		//	res.end('File is uploaded')
-			})
+	console.log(req.body)
+	// 	var upload = multer({
+	// 	storage: global.categoryStorage,
+	// 	fileFilter: function(req, file, callback) {
+	// 		var ext = global.path.extname(file.originalname)
+	// 		if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+	// 			return callback(res.end('Only images are allowed'), null)
+	// 		}
+	// 		callback(null, true)
+	// 	}
+	// }).single('category_image')
+	// 	upload(req, res, function(err) {
+	// 		console.log(req.body)
+	// 				global.Category.forge({
+	// 			      name: req.body.name,
+	// 			      description: req.body.description,
+	// 						status: (typeof req.body.status!='undefined') ? req.body.status : 'ACTIVE',
+	// 						image : (req.file!=undefined) ? req.file.filename : null,
+	// 			    })
+	// 		    .save()
+	// 		    .then(function (collections) {
+	// 					res.redirect(url.format({
+	// 				   pathname:"/categories",
+	// 				   query: {
+	// 				      error: false,
+	// 				      successMsg: "Records saved sucessfully.",
+	// 				    }
+	// 			 		}));
+	// 					//console.log(productVal.toJSON);
+	// 					//response.cat = collection.categories;
+	// 				//	console.log(collection.related('categories'));
+	// 		    //  res.json({error: false, data: collection.toJSON()});
+	// 		    })
+	// 		    .otherwise(function (err) {
+	// 		      res.status(500).json({error: true, data: {message: err.message}});
+	// 		    });
+	// 	//	res.end('File is uploaded')
+	// 		})
 	},
 //=============================================================================
 getEdit : function(req, res ){
