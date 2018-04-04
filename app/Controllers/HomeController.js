@@ -31,7 +31,7 @@ const HomeController = {
 	},
 	//===========================================================================
 	postRegisterOne : function(req, res ){
-		console.log(req);
+		console.log(req.body);
 		bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(req.body.pass, salt, function(err, hash) {
         // Store hash in your password DB.
@@ -48,7 +48,7 @@ const HomeController = {
 				.then(function (userVal) {
 
 					res.redirect(url.format({
-					 pathname:"/products",
+					 pathname:"/register",
 					 query: {
 							error: false,
 							successMsg: "Register Sucessfully.",

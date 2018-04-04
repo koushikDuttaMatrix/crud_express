@@ -17,11 +17,12 @@ global.myDb = require('./config/config.js');
 global.formidable = require('formidable'),
 //For password hash
 global.bcrypt = require('bcrypt');
-global.app.use( global.bodyParser.json({limit: '50mb'}) );       // to support JSON-encoded bodies
+global.app.use( global.bodyParser.json({limit: '50mb'}) ); // to support JSON-encoded bodies
+global.urlencodedParser = global.bodyParser.urlencoded({ extended: false,parameterLimit: 1000000,limit: '50mb' })
 
-global.app.use(global.bodyParser.urlencoded({ extended: false,
-   parameterLimit: 1000000,
-limit: '50mb'}));;
+// global.app.use(global.bodyParser.urlencoded({ extended: true,
+//    parameterLimit: 1000000,
+// limit: '50mb'}));
 // global.ModelPath = require("path").join(__dirname, "app/model");
 // require("fs").readdirSync(ModelPath).forEach(function(file) {
 //   require("./app/model/" + file);
