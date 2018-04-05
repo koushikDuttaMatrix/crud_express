@@ -19,7 +19,7 @@ global.formidable = require('formidable'),
 //For password hash
 global.bcrypt = require('bcrypt');
 global.app.use( global.bodyParser.json({limit: '50mb'}) ); // to support JSON-encoded bodies
-global.urlencodedParser = global.bodyParser.urlencoded({ extended: false,parameterLimit: 1000000,limit: '50mb' });
+global.urlencodedParser = global.bodyParser.urlencoded({ extended: true,parameterLimit: 1000000,limit: '50mb' });
 //express session setup
 global.app.use(session({
   secret: 'dfnmbfwertfhewtrfhwkhrw',

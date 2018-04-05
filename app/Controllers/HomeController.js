@@ -90,7 +90,9 @@ const HomeController = {
 					// res == true
 					if(response==true)
 					{
-						req.login(collection.attributes.id,function(err){
+						const user = collection.attributes;
+						console.log(user);
+						req.login(user,function(err){
 							res.redirect(url.format({
 							 pathname:"/login",
 							 query: {
@@ -132,13 +134,11 @@ const HomeController = {
 }
 
 //============================================================================
-passport.serializeUser(function(user_id, done) {
-  done(null, user_id);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-	  User.findById(id, function (err, user) {
-	    done(err, user);
-	  });
+passport.deserializeUser(function(user, done) {
+	done(null, user);
 });
 module.exports = HomeController;
