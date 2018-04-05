@@ -3,29 +3,22 @@
 <body>
 <div class="container">
   <div class="jumbotron">
-  <h3>User Registration</h3>
+  <h3>User Login</h3>
 </div>
   <div class="panel panel-default">
     <div class="panel-body">
       <%if(query.successMsg) {%>
         <div class="alert alert-success">
-            <strong>Success!</strong> <%= query.successMsg %>, Please <a href="/login"> Click Here</a> to login
+            <strong>Success!</strong> <%= query.successMsg %>
+        </div>
+      <%}%>
+      <%if(query.errorMsg) {%>
+        <div class="alert alert-danger">
+            <strong>Error!</strong> <%= query.errorMsg %>
         </div>
       <%}%>
       <div class="col-sm-8">
-    	<form method="POST" id="add_form" action="/register-post">
-        <div class="form-group">
-    	    <label for="name">First Name <span class="require-class">*</span></label>
-    	    <input type="text" class="form-control" name="f_name" id="f_name" autocomplete="off" data-validation="required">
-    	  </div>
-        <div class="form-group">
-    	    <label for="name">Last Name <span class="require-class">*</span></label>
-    	    <input type="text" class="form-control" name="l_name" id="l_name" autocomplete="off" data-validation="required">
-    	  </div>
-    	  <div class="form-group">
-    	    <label for="name">Username <span class="require-class">*</span></label>
-    	    <input type="text" class="form-control" name="username" id="username" autocomplete="off" data-validation="required">
-    	  </div>
+    	<form method="POST" id="add_form" action="/auth-login">
         <div class="form-group">
     	    <label for="name">Email <span class="require-class">*</span></label>
     	    <input type="email" class="form-control" name="email" id="email" autocomplete="off" data-validation="required">
@@ -36,11 +29,7 @@
 		 data-validation-strength="2">
         </div>
         <div class="form-group">
-          <label for="name">Repeat Password <span class="require-class">*</span></label>
-           <input type="password" id="pass" name="pass" class="form-control" data-validation="confirmation">
-        </div>
-        <div class="form-group">
-    	  <button type="submit" class="btn btn-success">Register</button>
+    	  <button type="submit" class="btn btn-success">Login</button>
     	  <button type="reset" class="btn btn-danger">Reset</button>
       </div>
     	</form>

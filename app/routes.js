@@ -8,7 +8,9 @@ router.get('/', HomeController.home);
 router.get('/about', HomeController.about);
 router.get('/chat', HomeController.getChat);
 router.get('/register', HomeController.getRegister);
-router.post('/register-add-post',urlencodedParser, HomeController.postRegisterOne);
+router.post('/register-post',urlencodedParser, HomeController.postRegister);
+router.get('/login', HomeController.getLogin);
+router.post('/auth-login', HomeController.postLogin);
 //Category route
 router.get('/categories', CategoryController.categories);
 router.get('/category-status-update/:id', CategoryController.statusUpdate);

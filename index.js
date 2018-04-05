@@ -13,12 +13,22 @@ global.path = require('path');
 global.cookieParser = require('cookie-parser')
 global.session = require('express-session');
 global.MySQLStore = require('express-mysql-session')(session);
+global.passport = require('passport');
 global.myDb = require('./config/config.js');
 global.formidable = require('formidable'),
 //For password hash
 global.bcrypt = require('bcrypt');
 global.app.use( global.bodyParser.json({limit: '50mb'}) ); // to support JSON-encoded bodies
-global.urlencodedParser = global.bodyParser.urlencoded({ extended: false,parameterLimit: 1000000,limit: '50mb' })
+global.urlencodedParser = global.bodyParser.urlencoded({ extended: false,parameterLimit: 1000000,limit: '50mb' });
+//express session setup
+global.app.use(session({
+  secret: 'dfnmbfwertfhewtrfhwkhrw',
+  resave: false,
+  saveUninitialized: false,
+  //cookie: { secure: true }
+}));
+global.app.use(passport.initialize());
+global.app.use(passport.session());
 
 // global.app.use(global.bodyParser.urlencoded({ extended: true,
 //    parameterLimit: 1000000,
