@@ -17,6 +17,8 @@ const CategoryController = {
 	    	page_name : 'category_list',
 				'list' : collection.toJSON(),
 				'query': req.query,
+				req : req,
+				res : res
 	    });
     })
     .otherwise(function (err) {
@@ -57,6 +59,8 @@ getAdd : function(req, res ){
 			res.render('pages/category/add',{
 	    	page_name : 'category_list',
 				'query': req.query,
+				req : req,
+				res : res
 	    });
 	},
 	//===========================================================================
@@ -109,6 +113,8 @@ getEdit : function(req, res ){
 	    	page_name : 'category_list',
 				'list' : collection.toJSON(),
 				'query': req.query,
+				req : req,
+				res : res
 	    });
   })
     .otherwise(function (err) {

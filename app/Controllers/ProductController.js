@@ -12,6 +12,8 @@ const ProductController = {
 	    	page_name : 'product_list',
 				'list' : collection.toJSON(),
 				'query': req.query,
+				req : req,
+				res : res
 	    });
 			console.log(collection.toJSON);
 			//response.cat = collection.categories;
@@ -64,6 +66,8 @@ getAdd : function(req, res ){
 	    	page_name : 'product_list',
 				'category_list' : collection.toJSON(),
 				'query': req.query,
+				req : req,
+				res : res
 	    });
 			console.log(collection.toJSON);
 			//response.cat = collection.categories;
@@ -142,6 +146,8 @@ getEdit : function(req, res ){
 				'category_list' : collection.toJSON(),
 				'query': req.query,
 				'productData' : productCollection.toJSON(),
+				req : req,
+				res : res
 	    });
 			console.log(collection.toJSON);
 			//response.cat = collection.categories;

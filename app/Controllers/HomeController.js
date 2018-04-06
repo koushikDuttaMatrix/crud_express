@@ -9,26 +9,38 @@ app.use(bodyParser());
 const HomeController = {
 	home : function(req, res) {
     res.render('pages/index',{
-    	page_name : 'home'
+    	page_name : 'home',
+			'query': req.query,
+			req : req,
+			res : res
     });
 	},
 	// Display detail page for a specific Author.
 	about : function(req, res) {
 	    res.render('pages/about',{
-	    	page_name : 'about'
+	    	page_name : 'about',
+				'query': req.query,
+				req : req,
+				res : res
 	    });
 	},
 	getChat : function(req, res) {
 	    res.render('pages/chat',{
-	    	page_name : 'chat'
+	    	page_name : 'chat',
+				'query': req.query,
+				req : req,
+				res : res
 	    });
 	},
 	//==========================================================================
 	getRegister : function(req, res ){
+		if (req.isAuthenticated()) return next();
 		//console.log(global.Category);
 			res.render('pages/auth/register',{
 	    	page_name : 'register',
 				'query': req.query,
+				req : req,
+				res : res
 	    });
 	},
 	//===========================================================================
@@ -65,11 +77,13 @@ const HomeController = {
 	},
 	//==========================================================================
 	getLogin : function(req, res ){
-			console.log(req.user);
+			if (req.isAuthenticated()) return next();
 			console.log(req.isAuthenticated());
 			res.render('pages/auth/login',{
 	    	page_name : 'login',
 				'query': req.query,
+				req : req,
+				res : res
 	    });
 	},
 //=============================================================================
@@ -77,7 +91,7 @@ const HomeController = {
 		global.User
 		.forge()
 		.query(function(qb) {
-			qb.where('users.email','=',req.body.email);
+			qb.where({email: req.body.email, status: 'ACTIVE'});
 			//.where('email','=',req.body.email)
 			//qb.debug(true);
 		})
@@ -94,7 +108,7 @@ const HomeController = {
 						console.log(user);
 						req.login(user,function(err){
 							res.redirect(url.format({
-							 pathname:"/login",
+							 pathname:"/",
 							 query: {
 									error: false,
 									successMsg: "Login successfully done.",
@@ -131,14 +145,16 @@ const HomeController = {
 		});
 	},
 	//===========================================================================
+		getLogout: function(req, res){
+			req.logout();
+			req.session.destroy();
+			res.redirect(url.format({
+			 pathname:"/login",
+			 query: {
+					error: false,
+					successMsg: "Logout successfully.",
+				}
+				}));
+		},
 }
-
-//============================================================================
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(user, done) {
-	done(null, user);
-});
 module.exports = HomeController;

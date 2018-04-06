@@ -10,9 +10,18 @@ global. _ = require('lodash');
 global.multer = require('multer');
 global.path = require('path');
 //var flash = require('connect-flash');
+//For session and cookie
 global.cookieParser = require('cookie-parser')
 global.session = require('express-session');
-global.MySQLStore = require('express-mysql-session')(session);
+var MySQLStore = require('express-mysql-session')(session);
+var options = {
+    host: process.env.DB_HOST,
+    port: 3306,
+    user:  process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+};
+var sessionStore = new MySQLStore(options);
 global.passport = require('passport');
 global.myDb = require('./config/config.js');
 global.formidable = require('formidable'),
@@ -23,6 +32,7 @@ global.urlencodedParser = global.bodyParser.urlencoded({ extended: true,paramete
 //express session setup
 global.app.use(session({
   secret: 'dfnmbfwertfhewtrfhwkhrw',
+  store: sessionStore,
   resave: false,
   saveUninitialized: false,
   //cookie: { secure: true }
