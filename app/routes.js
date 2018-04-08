@@ -4,6 +4,7 @@ var UserController = require('../app/Controllers/UserController');
 var CategoryController = require('../app/Controllers/CategoryController');
 var ProductController = require('../app/Controllers/ProductController');
 var AuthController = require('../app/Controllers/AuthController');
+var UserController = require('../app/Controllers/UserController');
 
 router.get('/', authenticationMiddleware(),HomeController.home);
 router.get('/about', HomeController.about);
@@ -13,6 +14,8 @@ router.post('/register-post',urlencodedParser, HomeController.postRegister);
 router.get('/login', HomeController.getLogin);
 router.post('/auth-login', HomeController.postLogin);
 router.get('/logout', HomeController.getLogout);
+router.get('/profile',authenticationMiddleware(),UserController.profile);
+router.get('/profile-edit/:id',authenticationMiddleware(),UserController.getEditProfile);
 //Category route
 router.get('/categories', authenticationMiddleware(),CategoryController.categories);
 router.get('/category-status-update/:id', authenticationMiddleware(),CategoryController.statusUpdate);

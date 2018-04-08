@@ -39,6 +39,23 @@ global.app.use(session({
 }));
 global.app.use(passport.initialize());
 global.app.use(passport.session());
+// var jsdom = require("node-jsdom");
+//
+// var $image = $('#image');
+//
+// $image.cropper({
+//   aspectRatio: 16 / 9,
+//   crop: function(event) {
+//     console.log(event.detail.x);
+//     console.log(event.detail.y);
+//     console.log(event.detail.width);
+//     console.log(event.detail.height);
+//     console.log(event.detail.rotate);
+//     console.log(event.detail.scaleX);
+//     console.log(event.detail.scaleY);
+//   }
+// });
+
 
 // global.app.use(global.bodyParser.urlencoded({ extended: true,
 //    parameterLimit: 1000000,
